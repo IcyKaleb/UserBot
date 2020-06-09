@@ -17,11 +17,11 @@ async def _(event):
     while True:
         DMY = time.strftime("%d.%m.%y")
         HM = time.strftime("%H:%M")
-        name = f"{HM}🔥Shefali🔥{DMY}"
+        name = f"{HM}// ɜˣƤĻ𖣔¡t³ʶ //{DMY}"
         logger.info(name)
         try:
             await borg(functions.account.UpdateProfileRequest(  # pylint:disable=E0602
-                last_name = name
+                first_name = name
             ))
         except FloodWaitError as ex:
             logger.warning(str(e))
