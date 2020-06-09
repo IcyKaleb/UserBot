@@ -69,7 +69,7 @@ if Config.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             rev_text = query[::-1]
             buttons = paginate_help(0, borg._plugins, "helpme")
             result = builder.article(
-                "© @UniBorg",
+                "Owner: @Futureizm",
                 text="{}\nCurrently Loaded Plugins: {}".format(
                     query, len(borg._plugins)),
                 buttons=buttons,
@@ -112,7 +112,7 @@ All instaructions to run @UniBorg in your PC has been explained in https://githu
             # https://t.me/TelethonChat/115200
             await event.edit(buttons=buttons)
         else:
-            reply_pop_up_alert = "Please get your own @UniBorg, and don't edit my messages!"
+            reply_pop_up_alert = "Fuck make your own userbot, don't touch mine!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 
 
@@ -131,7 +131,7 @@ All instaructions to run @UniBorg in your PC has been explained in https://githu
             # https://t.me/TelethonChat/115200
             await event.edit(buttons=buttons)
         else:
-            reply_pop_up_alert = "Please get your own @UniBorg, and don't edit my messages!"
+            reply_pop_up_alert = "Fuck make your own userbot, don't touch mine!"
             await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 
 
@@ -145,7 +145,7 @@ All instaructions to run @UniBorg in your PC has been explained in https://githu
         reply_pop_up_alert = help_string if help_string is not None else \
             "No DOCSTRING has been setup for {} plugin".format(plugin_name)
         reply_pop_up_alert += "\n\n Use .unload {} to remove this plugin\n\
-            © @UniBorg".format(plugin_name)
+            @Futureizm".format(plugin_name)
         await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 
 
