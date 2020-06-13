@@ -31,6 +31,7 @@ async def main(event):
     while True:
         await animepp()
         file = await event.client.upload_file("donottouch.jpg")  
+        await event.client(functions.photos.DeletePhotosRequest(await event.client.get_profile_photos("me", limit=1)))
         await event.client(functions.photos.UploadProfilePhotoRequest( file))
         os.system("rm -rf donottouch.jpg")
         await asyncio.sleep(60) #Edit this to your required needs
