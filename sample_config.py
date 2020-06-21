@@ -110,6 +110,8 @@ class Config(object):
     TL_MUS_STREAM_TYPES = ("MP3", "WAV", "FLAC")
     # Deeer ARL Token
     DEEZER_ARL_TOKEN = os.environ.get("DEEZER_ARL_TOKEN", None)
+    #Kaleb LEELA
+    ZIKING_PIC = os.environ.get("ZIKING_PIC", None)
 
 
 class Production(Config):
