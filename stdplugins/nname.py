@@ -11,7 +11,7 @@ from uniborg.util import admin_cmd
 DEL_TIME_OUT = 60
 
 
-@borg.on(admin_cmd(pattern="kname"))  # pylint:disable=E0602
+@borg.on(admin_cmd(pattern="nname"))  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
         return
