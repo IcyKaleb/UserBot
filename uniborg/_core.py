@@ -9,7 +9,7 @@ from datetime import datetime
 from uniborg import util
 
 
-DELETE_TIMEOUT = 5
+DELETE_TIMEOUT = 10
 
 
 @borg.on(util.admin_cmd(pattern="load (?P<shortname>\w+)$"))  # pylint:disable=E0602
