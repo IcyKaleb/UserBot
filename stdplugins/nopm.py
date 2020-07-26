@@ -20,8 +20,8 @@ PREV_REPLY_MESSAGE = {}
 
 BAALAJI_TG_USER_BOT = "My Master hasn't approved you to PM."
 TG_COMPANION_USER_BOT = "Please wait for his response and don't spam his PM."
-UNIBORG_USER_BOT_WARN_ZERO = "I am currently offline. Please do not SPAM me."
-UNIBORG_USER_BOT_NO_WARN = "[──▄█▀█▄─────────██ \n▄████████▄───▄▀█▄▄▄▄ \n██▀▼▼▼▼▼─▄▀──█▄▄ \n█████▄▲▲▲─▄▄▄▀───▀▄ \n██████▀▀▀▀─▀────────▀▀](t.me/r4v4n4) \n\n Thank you for contacting me but i Am Offline Now, i will message once I get online....."
+UNIBORG_USER_BOT_WARN_ZERO = "Yo! I told you that my master don't like people when they spam in PM, sorry you've been blocked."
+UNIBORG_USER_BOT_NO_WARN = "Hello there boi :p\nMy name is **KenXer AI Assistance Bot**I do many things to help KenXer with his account.\nHe pay me 600$ per day, so expensive ?\**I'm here to tell you that KenXer ( My Master ) is offline, he's somewhere in the earth, he didn't tell me his exact location, but I promise he will see this message in a few light years...no no i'm just joking he will reply you within 8 hours.\n And don't send any messages until he see this messages else I will block you because my master don't like people when they spam in PM.\nHave a good day xD. "
 
 
 @borg.on(admin_cmd(pattern="nccreatedch"))
@@ -82,7 +82,7 @@ async def set_no_log_p_m(event):
                 await event.delete()
 
 
-@borg.on(admin_cmd(pattern="okpm ?(.*)"))
+@borg.on(admin_cmd(pattern="yespm ?(.*)"))
 async def approve_p_m(event):
     if event.fwd_from:
         return
@@ -97,12 +97,12 @@ async def approve_p_m(event):
                     await PREV_REPLY_MESSAGE[chat.id].delete()
                     del PREV_REPLY_MESSAGE[chat.id]
                 pmpermit_sql.approve(chat.id, reason)
-                await event.edit("**User successfully added to**__PM_WHITELIST__. ヽ( ´¬`)ノ")
+                await event.edit("✅ Approved successfully")
                 await asyncio.sleep(30)
                 await event.delete()
 
 
-@borg.on(admin_cmd(pattern="nopepm ?(.*)"))
+@borg.on(admin_cmd(pattern="nopm ?(.*)"))
 async def approve_p_m(event):
     if event.fwd_from:
         return
@@ -112,25 +112,25 @@ async def approve_p_m(event):
         if event.is_private:
             if pmpermit_sql.is_approved(chat.id):
                 pmpermit_sql.disapprove(chat.id)
-                await event.edit("**User successfully added to**__PM_BLACKLIST.__|°з°|")
+                await event.edit("❌ Disapproved successfully.")
                 await asyncio.sleep(30)
                 await borg(functions.contacts.BlockRequest(chat.id))
 
 
-@borg.on(admin_cmd(pattern="printokpms"))
+@borg.on(admin_cmd(pattern="listyespms"))
 async def approve_p_m(event):
     if event.fwd_from:
         return
     approved_users = pmpermit_sql.get_all_approved()
-    APPROVED_PMs = "WHITELISTED PMs"
+    APPROVED_PMs = "Approved PMs....\n"
     if len(approved_users) > 0:
         for a_user in approved_users:
             if a_user.reason:
-                APPROVED_PMs += f"USER > [{a_user.chat_id}](tg://user?id={a_user.chat_id}) for {a_user.reason}\n"
+                APPROVED_PMs += f"🔼 [{a_user.chat_id}](tg://user?id={a_user.chat_id}) for {a_user.reason}\n"
             else:
-                APPROVED_PMs += f"USER > [{a_user.chat_id}](tg://user?id={a_user.chat_id})\n"
+                APPROVED_PMs += f"🔽 [{a_user.chat_id}](tg://user?id={a_user.chat_id})\n"
     else:
-        APPROVED_PMs = "**No WHITELISTED PMs.** (-_-) zzz"
+        APPROVED_PMs = "no Approved PMs (yet)"
     if len(APPROVED_PMs) > Config.MAX_MESSAGE_SIZE_LIMIT:
         with io.BytesIO(str.encode(APPROVED_PMs)) as out_file:
             out_file.name = "approved.pms.text"
@@ -139,7 +139,7 @@ async def approve_p_m(event):
                 out_file,
                 force_document=True,
                 allow_cache=False,
-                caption="Current WHITELIST PMs",
+                caption="Current Approved PMs",
                 reply_to=event
             )
             await event.delete()
@@ -287,7 +287,7 @@ async def do_pm_permit_action(chat_id, event):
             silent=True
         )
         return
-    r = await event.delete()
+    r = await event.reply(UNIBORG_USER_BOT_NO_WARN)
     PM_WARNS[chat_id] += 1
     if chat_id in PREV_REPLY_MESSAGE:
         await PREV_REPLY_MESSAGE[chat_id].delete()
@@ -296,8 +296,8 @@ async def do_pm_permit_action(chat_id, event):
 
 async def do_log_pm_action(chat_id, message_text, message_media):
     the_message = ""
-    the_message += "Recived a new message. \n\n"
-    the_message += f"From this [User](tg://user?id={chat_id}): {chat_id}\n"
+    the_message += "#LOG_PMs\n\n"
+    the_message += f"[User](tg://user?id={chat_id}): {chat_id}\n"
     the_message += f"Message: {message_text}\n"
     # the_message += f"Media: {message_media}"
     await borg.send_message(
