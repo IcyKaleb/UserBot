@@ -9,7 +9,7 @@ from telethon.utils import get_input_location
 from uniborg.util import admin_cmd
 
 
-@borg.on(admin_cmd(pattern="whois ?(.*)"))
+@borg.on(admin_cmd(pattern="w ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -49,18 +49,28 @@ async def _(event):
     try:
         dc_id, location = get_input_location(replied_user.profile_photo)
     except Exception as e:
-        dc_id = "Need a Profile Picture to check **this**"
+        dc_id = "Unknown: 404⅝"
         location = str(e)
-    caption = """ID: <code>{}</code>
-First Name: <a href='tg://user?id={}'>{}</a>
-🤦‍♂️ Last Name: {}
-Bio: {}
-DC ID: {}
-Number of PPs: {}
-Restricted: {}
-Verified: {}
-Bot: {}
-Groups in Common: {}
+    caption = """
+🆔: <code>{}</code>  
+🤵Name: <a href='tg://user?id={}'>{}</a>
+👴Last name: {}
+✍️Bio: {}
+🌏Data Centre ID: {}
+🖼Number of Profile Pics: {}
+🔏Restricted: {}
+🌐Verified: {}
+🤖Bot: {}
+👥Groups in Common: {}
+
+
+List Of Telegram Data Centres:
+
+DC1 : Miami FL, USA
+DC2 : Amsterdam, NL
+DC3 : Miami FL, USA
+DC4 : Amsterdam, NL
+DC5 : Singapore, SG
 """.format(
         user_id,
         user_id,
