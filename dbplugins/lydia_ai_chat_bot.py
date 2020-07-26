@@ -32,7 +32,7 @@ if Config.LYDIA_API is not None:
     lydia = LydiaAI(coffeehouse_api)
 
 
-@borg.on(admin_cmd(pattern="(ena|del|lst)cf", allow_sudo=True))
+@borg.on(admin_cmd(pattern="(ai|no|lst)cf", allow_sudo=True))
 async def lydia_disable_enable(event):
     if event.fwd_from:
         return
@@ -44,7 +44,7 @@ async def lydia_disable_enable(event):
         reply_msg = await event.get_reply_message()
         user_id = reply_msg.from_id
         chat_id = event.chat_id
-        await event.edit("Processing...")
+        await event.edit("Turning on artificial intelligence.")
         if input_str == "ena":
             # Create a new chat session (Like a conversation)
             session = lydia.create_session()
@@ -54,7 +54,7 @@ async def lydia_disable_enable(event):
             # logger.info("Session Language: {0}".format(str(session.language)))
             # logger.info("Session Expires: {0}".format(str(session.expires)))
             logger.info(add_s(user_id, chat_id, session.id, session.expires))
-            await event.edit(f"Lydia AI turned on for [user](tg://user?id={user_id}) in chat: `{chat_id}`")
+            await event.edit(f"Artificial Intelligence enabled for this [user](tg://user?id={user_id}) in chat: `{chat_id}`")
         elif input_str == "del":
             logger.info(remove_s(user_id, chat_id))
             await event.edit(f"Lydia AI turned off for [user](tg://user?id={user_id}) in chat: `{chat_id}`")
