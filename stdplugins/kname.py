@@ -11,14 +11,14 @@ from uniborg.util import admin_cmd
 DEL_TIME_OUT = 60
 
 
-@borg.on(admin_cmd(pattern="sname"))  # pylint:disable=E0602
+@borg.on(admin_cmd(pattern="kname"))  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
         return
     while True:
         DM = time.strftime("%d-%m-%y")
         HM = time.strftime("%H:%M")
-        name = f"{HM}||› ⌁ イーマ—ン—グ ⌁ ‹||{DM}"
+        name = f"⌁オイド⌁ [{HM}]"
         logger.info(name)
         try:
             await borg(functions.account.UpdateProfileRequest(  # pylint:disable=E0602
