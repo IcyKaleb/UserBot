@@ -24,10 +24,10 @@ async def _(event):
         s_help_string = borg._plugins[splugin_name].__doc__
     else:
         s_help_string = ""
-    help_string = """Unidragon is up and running!
-User: @Xaleb 
-Owner: [jaleb](https://github.com/Xaleb1370)
-Telethon: {}"".format(
+    help_string = """.
+Telethon : {}
+User : @Xaleb
+Repo Owner : @Xaleb""".format(
         sys.version,
         __version__
     )
@@ -56,7 +56,7 @@ async def _(event):
     await event.edit(result.stringify())
 
 
-@borg.on(admin_cmd(pattern="alive"))  # pylint:disable=E0602
+@borg.on(admin_cmd(pattern="config"))  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
         return
@@ -73,9 +73,9 @@ async def _(event):
     plugin_name = event.pattern_match.group(1)
     if plugin_name in borg._plugins:
         help_string = borg._plugins[plugin_name].__doc__
-        unload_string = f"Use `.unload {plugin_name}` to remove this plugin.\n           [©UniBorg](https://telegra.ph/file/1bef11711dd89cee0de6f.jpg)"
+        unload_string = f"**{plugin_name}**\n           "
         if help_string:
-            plugin_syntax = f"Syntax for plugin **{plugin_name}**:\n\n{help_string}\n{unload_string}"
+            plugin_syntax = f"Here is a help for {plugin_name} plugin**:\n\n{help_string}\n{unload_string}"
         else:
             plugin_syntax = f"No DOCSTRING has been setup for {plugin_name} plugin."
     else:
