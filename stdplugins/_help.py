@@ -66,7 +66,7 @@ async def _(event):
     await event.edit("""Telethon UserBot powered by @UniBorg""")
 
 
-@borg.on(admin_cmd(pattern="syntax (.*)", allow_sudo=True))
+@borg.on(admin_cmd(pattern="help (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
