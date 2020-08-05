@@ -15,7 +15,7 @@ from telethon import events, functions, __version__
 from uniborg.util import admin_cmd
 
 
-@borg.on(admin_cmd(pattern="ziking ?(.*)", allow_sudo=True))  # pylint:disable=E0602
+@borg.on(admin_cmd(pattern="on ?(.*)", allow_sudo=True))  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
         return
@@ -24,17 +24,10 @@ async def _(event):
         s_help_string = borg._plugins[splugin_name].__doc__
     else:
         s_help_string = ""
-    help_string = """🔼ᴢɪ ᴋɪɴɢ ᴜsᴇʀʙᴏᴛ🔽ɪs ᴜᴘ ᴀɴᴅ ʀᴜɴɴɪɴɢ. 
-° ᴘʀᴏᴛᴏɴ : 1.14.0
-° ɴᴇᴜᴛʀᴏɴ: 3.8.2 (ʟᴀsᴛ ᴛᴇsᴛᴇᴅ ᴀᴛ ᴊᴜɴᴇ 10, 2020 ɪɴ ᴢɪ ᴋɪɴɢ's ʟᴀʙ.)
-° os: ʟɪɴᴜx/ɢɴᴜ  
-° ᴄᴜʀʀᴇɴᴛ ᴅᴄ : 4 
-° ᴜsᴇʀ : @ZiKing
-° ᴏᴡɴᴇʀ : @ZiKing 
-° ʜᴇʀᴏᴋᴜ: ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴡɪᴛʜ ʜᴋ16
-° ɢɪᴛʜᴜʙ ʀᴇᴘᴏ: ᴘʀɪᴠᴀᴛᴇ
-° sᴜᴅᴏ ᴜsᴇʀs: ᴀʟʟᴏᴡᴇᴅ 
-° ᴜsᴇʀʙᴏᴛ ʟɪᴠᴇ ɪɴ:  ᴜsᴀ """.format(
+    help_string = """Unidragon is up and running!
+User: @Xaleb 
+Owner: [jaleb](https://github.com/Xaleb1370)
+Telethon: {}"".format(
         sys.version,
         __version__
     )
