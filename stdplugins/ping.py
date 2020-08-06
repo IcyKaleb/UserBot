@@ -12,4 +12,4 @@ async def _(event):
     await ed.edit("Pong!")
     end = datetime.now()
     ms = (end - start).microseconds / 1000
-    await ed.edit("**Pong!**\n`{}` __ms__".format(ms))
+    await ed.edit("**Ping response**: {} __ms__".format(ms))
