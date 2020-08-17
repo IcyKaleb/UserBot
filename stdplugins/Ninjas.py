@@ -28,7 +28,7 @@ async def animepp():
     urllib.request.urlretrieve(fy,"donottouch.jpg")
 @borg.on(admin_cmd(pattern="ninja ?(.*)", allow_sudo=True))
 async def main(event):
-    await event.reply("ᴀᴜᴛᴏ ᴘɪᴄ sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.\n\nᴘɪᴄs ᴛʏᴘᴇ :- Ninja 😎\n\nᴏᴡɴᴇʀ : @KarvorTM") #Owner @NihiNivi
+    await event.reply("ᴀᴜᴛᴏ ᴘɪᴄ sᴛᴀʀᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʟʏ.") #Owner @NihiNivi
     while True:
         await animepp()
         file = await event.client.upload_file("donottouch.jpg")  
