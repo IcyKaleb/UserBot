@@ -9,14 +9,14 @@ from telethon import events
 from uniborg.util import admin_cmd
 
 
-@borg.on(admin_cmd(pattern="screencapture (.*)"))
+@borg.on(admin_cmd(pattern="ss (.*)"))
 async def _(event):
     if event.fwd_from:
         return
     if Config.GOOGLE_CHROME_BIN is None:
         await event.edit("need to install Google Chrome. Module Stopping.")
         return
-    await event.edit("Processing ...")
+    await event.edit("**Taking screenshot**")
     start = datetime.now()
     try:
         chrome_options = webdriver.ChromeOptions()
@@ -46,7 +46,7 @@ async def _(event):
         if event.reply_to_msg_id:
             message_id = event.reply_to_msg_id
         with io.BytesIO(im_png) as out_file:
-            out_file.name = "@UniBorg.ScreenCapture.PNG"
+            out_file.name = "screenshot.PNG"
             await borg.send_file(
                 event.chat_id,
                 out_file,
