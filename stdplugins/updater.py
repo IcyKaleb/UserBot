@@ -1,76 +1,74 @@
-"""Update UserBot code (for UniBorg)
-Syntax: .update
-\nAll Credits goes to © @Three_Cube_TeKnoways
-\nFor this awasome plugin.\nPorted from PpaperPlane Extended"""
+"""Unofficial updater. Currently in Deployment Stage
+Command - .update 
+Replace . with your command handler 
+This May result in Downtime of bot.
+If you are using fork than add a heroku var.
+GIT_REPO_URL = {your fork url}"""
+
+
+#"""Update UserBot code (for UniBorg)
+#Syntax: .update
+#\nAll Credits goes to © @Three_Cube_TeKnoways
+#\nFor this awasome plugin.\nPorted from PpaperPlane Extended"""
 
 from os import remove
 from os import execl
 import sys
-
 # from git import Repo
 # from git.exc import GitCommandError
 # from git.exc import InvalidGitRepositoryError
 # from git.exc import NoSuchPathError
-
 # from .. import bot
 # from uniborg.events import register
-
 import git
 import asyncio
 import random
 import re
 import time
-
 from collections import deque
-
 import requests
-
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
 from telethon import events
-
 from uniborg.util import admin_cmd
-
-
 from contextlib import suppress
 import os
 import sys
 import asyncio
-
 # -- Constants -- #
 IS_SELECTED_DIFFERENT_BRANCH = (
-    "looks like a custom branch {branch_name} "
-    "is being used:\n"
+    "**Looks like a custom branch {branch_name}**"
+    "Is being used:\n"
     "in this case, Updater is unable to identify the branch to be updated."
     "please check out to an official branch, and re-start the updater."
 )
-OFFICIAL_UPSTREAM_REPO = "https://github.com/XalebG/userbot/"
+GIT_REPO_URL = os.environ.get("GIT_REPO_URL", "https://github.com/xalebg/userbot/")
 BOT_IS_UP_TO_DATE = "`The userbot is up-to-date.\nThank you for Using this Service.`"
 NEW_BOT_UP_DATE_FOUND = (
-    "new update found for {branch_name}\n"
-    "changelog: \n\n{changelog}\n"
-    "updating ..."
+    "**New update found for `{branch_name}` branch.**\n"
+    "**Changelog: {changelog}\n\n"
+    "Updating...**"
 )
 NEW_UP_DATE_FOUND = (
-    "New update found for {branch_name}\n"
-    "`updating ...`"
+    "**New update found for `{branch_name}` branch.**\n"
+    "\n**Updating...**"
 )
-REPO_REMOTE_NAME = "temponame"
+REPO_REMOTE_NAME = os.environ.get("REPO_REMOTE_NAME", "temponame")
 IFFUCI_ACTIVE_BRANCH_NAME = "master"
 DIFF_MARKER = "HEAD..{remote_name}/{branch_name}"
-NO_HEROKU_APP_CFGD = "no heroku application found, but a key given? 😕 "
+NO_HEROKU_APP_CFGD = "**No heroku application found.**"
 HEROKU_GIT_REF_SPEC = "HEAD:refs/heads/master"
-RESTARTING_APP = "re-starting heroku application"
+RESTARTING_APP = "**Re-Starting heroku application.**"
 # -- Constants End -- #
 
 
-@borg.on(admin_cmd(pattern="update (.*)", allow_sudo=True))
+@borg.on(admin_cmd(pattern="update ?(.*)", outgoing=True))
 async def updater(message):
     try:
         repo = git.Repo()
     except git.exc.InvalidGitRepositoryError as e:
         repo = git.Repo.init()
-        origin = repo.create_remote(REPO_REMOTE_NAME, OFFICIAL_UPSTREAM_REPO)
+        origin = repo.create_remote(REPO_REMOTE_NAME, GIT_REPO_URL)
         origin.fetch()
         repo.create_head(IFFUCI_ACTIVE_BRANCH_NAME, origin.refs.master)
         repo.heads.master.checkout(True)
@@ -83,7 +81,7 @@ async def updater(message):
         return False
 
     try:
-        repo.create_remote(REPO_REMOTE_NAME, OFFICIAL_UPSTREAM_REPO)
+        repo.create_remote(REPO_REMOTE_NAME, GIT_REPO_URL)
     except Exception as e:
         print(e)
         pass
@@ -100,8 +98,8 @@ async def updater(message):
     )
 
     if not changelog:
-        await message.edit("**Updating UserBot**")
-        await asyncio.sleep(8)
+        await message.edit("**Checking for updates...**")
+        await asyncio.sleep(1.5)
  
     message_one = NEW_BOT_UP_DATE_FOUND.format(
         branch_name=active_branch_name,
@@ -119,9 +117,11 @@ async def updater(message):
             document="change.log",
             caption=message_two
         )
+        await asyncio.sleep(8)
         os.remove("change.log")
     else:
         await message.edit(message_one)
+        await asyncio.sleep(1.5)
 
     temp_upstream_remote.fetch(active_branch_name)
     repo.git.reset("--hard", "FETCH_HEAD")
@@ -137,7 +137,7 @@ async def updater(message):
                     if i.name == Config.HEROKU_APP_NAME:
                         heroku_app = i
                 if heroku_app is None:
-                    await message.edit("Invalid APP Name. Please set the name of your bot in heroku in the var `HEROKU_APP_NAME.`")
+                    await message.edit("**Invalid APP Name. Please set the name of your bot in heroku in the var `HEROKU_APP_NAME.`**")
                     return
                 heroku_git_url = heroku_app.git_url.replace(
                     "https://",
@@ -151,12 +151,12 @@ async def updater(message):
                 asyncio.get_event_loop().create_task(deploy_start(tgbot, message, HEROKU_GIT_REF_SPEC, remote))
 
             else:
-                await message.edit("Please create the var `HEROKU_APP_NAME` as the key and the name of your bot in heroku as your value.")
+                await message.edit("**Please create the var `HEROKU_APP_NAME` as the key and the name of your bot in heroku as your value.**")
                 return
         else:
             await message.edit(NO_HEROKU_APP_CFGD)
     else:
-        await message.edit("No heroku api key found in `HEROKU_API_KEY` var")
+        await message.edit("**No heroku api key found in** `HEROKU_API_KEY` **var.**")
         
 
 def generate_change_log(git_repo, diff_marker):
@@ -168,9 +168,8 @@ def generate_change_log(git_repo, diff_marker):
 
 async def deploy_start(tgbot, message, refspec, remote):
     await message.edit(RESTARTING_APP)
-    await message.edit("**Updated successfully**")
-    await remote.push(refspec=refspec)
+    await message.edit("**Deployment Started Successfully !**")
+    remote.push(refspec=refspec)
     await tgbot.disconnect()
+    await message.edit("**Already Up-to-date.**")
     os.execl(sys.executable, sys.executable, *sys.argv)
-
-    
